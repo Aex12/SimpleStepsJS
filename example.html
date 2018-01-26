@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>SimpleStepsJS</title>
+</head>
+<body>
+	<div id="raffle-wizard"></div>
+	<script type="text/javascript" src="simplesteps.js"></script>
+	<script type="text/javascript">
+		(function() {
+
+			// First, we declare a new SimpleStepsJS object and give it a config object.
+			// container_div is mandatory and should be a DIV element.
+			var wizard = new SimpleStepsJS({
+				container_div: document.getElementById('raffle-wizard'),
+				show_index: false,  // If you set it to true it will show current index before title of step.
+			});
+
+
+			// You can set any custom action to use in buttons. 
+			// This action will open a new tab with the given url when clicked.
+			// Call next() if you want your wizard to move to the next step.
+			// Call goto() if you want your wizard to move to other step by its id.
+			wizard.addAction("website", function(url, next, goto){
+				var tab = window.open(url, "_blank");
+				tab.focus();
+			});
+
+			// You can add as many steps as you want.
+			// You can define an id, a title, a description, and a buttons array.
+			// Buttons has text, action and value. You can use "next" and "goto" actions or your customs actions added with addAction(...);
+			wizard.addStep({
+				id: "first-step",  // Define an id if you want to go back or forward this step.
+				title: "Do you want to open Google?",
+				buttons: [
+					{text: "Yes", action: "website", value: "https://google.com/"},
+					{text: "No", action: "next"},
+					{text: "Skip all", action: "goto", value: "final-step"}
+				]
+			});
+
+			wizard.addStep({
+				title: "Do you want to open Bing?",
+				description: "You can add a description here, if you want.",
+				buttons: [
+					{text: "Open Bing", action: "website", value: "https://bing.com/"},
+					{text: "I don't.", action: "next"}
+				]
+			});
+
+			wizard.addStep({
+				id: "final-step",
+				title: "That's all, we just finished!",
+				buttons: [
+					{text: "Start again!", action: "goto", value: "first-step"}
+				]
+			});
+
+			// Finally, start the wizard.
+			wizard.start();
+			
+		})();
+	</script>
+</body>
+</html>
