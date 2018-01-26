@@ -3,7 +3,11 @@ class SimpleStepsJS {
 		this.steps = [];
 		this.actions = [];
 		this.current_step = 0;
-		this.loadConfig(config);
+		try {
+			this.loadConfig(config);
+		} catch(e) {
+			throw new Error(e);
+		}
 		return this;
 	}
 
